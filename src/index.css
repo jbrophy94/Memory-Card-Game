@@ -68,6 +68,11 @@ button:focus-visible {
   }
 }
 
+img {
+  border: 2px solid lime;
+  border-radius: 12px;
+}
+
 img:hover {
   cursor: pointer;
 }

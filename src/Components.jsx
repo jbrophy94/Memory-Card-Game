@@ -28,7 +28,7 @@ function CardDisplay({ clickFunction, randomOrderer }) {
 
   //state variables
   const [urlList, setUrlList] = useState([]);
-  const [cards, setCards] = useState([]);
+  // const [cards, setCards] = useState([]);
   const [trigger, setTrigger] = useState(true);
 
   useEffect(() => {
@@ -85,54 +85,80 @@ function CardDisplay({ clickFunction, randomOrderer }) {
       return URLS;
     };
 
-    const generateCards = function (arr) {
-      return arr.map((el) => {
-        return (
-          <img
-            src={el}
-            alt=""
-            id={uuidv4()}
-            key={uuidv4()}
-            width="130px"
-            height="130px"
-            style={{ border: "2px solid lime", borderRadius: "12px" }}
-            onClick={(e) => clickFunction(e)}
-          />
-        );
-      });
-    };
+    // const generateCards = function (arr) {
+    //   console.log(arr);
+    //   return arr.map((el) => {
+    //     return (
+    //       <img
+    //         src={el}
+    //         alt=""
+    //         id={uuidv4()}
+    //         key={uuidv4()}
+    //         width="130px"
+    //         height="130px"
+    //         style={{ border: "2px solid lime", borderRadius: "12px" }}
+    //         onClick={(e) => clickFunction(e)}
+    //       />
+    //     );
+    //   });
+    // };
+
+    // const updateCards = (arr) => {
+    //   console.log(arr);
+    //   setCards(generateCards(arr));
+    // };
 
     //Finally create function to wait for data and setUrlList
     const updateData = async () => {
       const urls = await fetchAllCategories();
       setUrlList(urls);
-    };
-
-    const updateCards = () => {
-      setCards(generateCards(urlList));
+      // updateCards(urlList);
     };
 
     updateData();
-    updateCards();
   }, []);
 
-  function displayCards() {
-    return (
-      <div
-        style={{
-          display: "grid",
-          gridTemplateRows: "auto auto auto auto",
-          gridTemplateColumns: "auto auto auto auto",
-          gap: "15px",
-        }}
-        onClick={() => setTrigger(!trigger)}
-      >
-        {randomOrderer(cards)}
-      </div>
-    );
-  }
-
-  return displayCards();
+  // function displayCards() {
+  //   console.log("Display Cards Ran");
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "grid",
+  //         gridTemplateRows: "auto auto auto auto",
+  //         gridTemplateColumns: "auto auto auto auto",
+  //         gap: "15px",
+  //       }}
+  //       onClick={() => setTrigger(!trigger)}
+  //     >
+  //       {randomOrderer(urlList).map((el) => {
+  //         <img src={el}></img>;
+  //       })}
+  //     </div>
+  //   );
+  // }
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "auto auto auto auto",
+        gridTemplateRows: "auto auto auto auto",
+        gap: "15px",
+      }}
+    >
+      {randomOrderer(urlList).map((el) => {
+        return (
+          <img
+            src={el}
+            id={el}
+            height="150px"
+            width="150px"
+            key={uuidv4()}
+            onClick={clickFunction}
+          ></img>
+        );
+      })}
+    </div>
+  );
 }
 
 function WinningPage({ resetFunction }) {
@@ -151,6 +177,15 @@ function FullApp() {
   const [highScore, setHighScore] = useState(0);
   const [clickedIDs, setClickedIDs] = useState([]);
   const [currID, setCurrID] = useState("XXX");
+  const [trigger, setTrigger] = useState(true);
+
+  console.log(trigger);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTrigger(!trigger);
+    }, 10000);
+  }, []);
 
   console.log(clickedIDs.slice(0, -1).includes(currID));
 
